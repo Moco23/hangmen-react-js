@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { revealLetter, incrementErrors } from "../redux/slices/gameSlice";
+import { revealLetter, incrementErrors, resetGame } from "../redux/slices/gameSlice";
 
 const GameScreen = ({ onFinish }) => {
   const { quote, maskedQuote, errors, maxErrors } = useSelector((state) => state.game);
@@ -14,6 +14,7 @@ const GameScreen = ({ onFinish }) => {
       if (errors + 1 === maxErrors) {
         alert("Game Over!");
         onFinish();
+        dispatch(resetGame()); // Reset the game state
       }
     }
   };

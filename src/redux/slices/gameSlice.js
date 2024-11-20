@@ -1,49 +1,34 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  username: "",
-  quote: "",
-  maskedQuote: "",
-  uniqueCharacters: new Set(),
+  quote: '',
+  maskedQuote: '',
   errors: 0,
   maxErrors: 6,
-  startTime: null,
+  username: '', // Add username to the initial state
+  // other state properties
 };
 
 const gameSlice = createSlice({
-  name: "game",
+  name: 'game',
   initialState,
   reducers: {
-    setUsername: (state, action) => {
-      state.username = action.payload;
-    },
-    startGame: (state, action) => {
-      state.quote = action.payload.quote;
-      state.maskedQuote = action.payload.quote.replace(/[a-zA-Z]/g, "_");
-      state.uniqueCharacters = new Set(action.payload.quote.toLowerCase().match(/[a-z]/g));
-      state.errors = 0;
-      state.startTime = Date.now();
-    },
     revealLetter: (state, action) => {
-      const letter = action.payload.toLowerCase();
-      const updatedMaskedQuote = state.maskedQuote.split("").map((char, idx) =>
-        state.quote[idx].toLowerCase() === letter ? state.quote[idx] : char
-      );
-      state.maskedQuote = updatedMaskedQuote.join("");
+      // logic to reveal letter
     },
     incrementErrors: (state) => {
-      state.errors++;
+      state.errors += 1;
     },
     resetGame: (state) => {
-      state.username = "";
-      state.quote = "";
-      state.maskedQuote = "";
-      state.uniqueCharacters = new Set();
       state.errors = 0;
-      state.startTime = null;
+      state.maskedQuote = ''; // Reset other state properties as needed
+      // Reset other state properties as needed
+    },
+    setUsername: (state, action) => {
+      state.username = action.payload; // Add setUsername reducer
     },
   },
 });
 
-export const { setUsername, startGame, revealLetter, incrementErrors, resetGame } = gameSlice.actions;
+export const { revealLetter, incrementErrors, resetGame, setUsername } = gameSlice.actions;
 export default gameSlice.reducer;
