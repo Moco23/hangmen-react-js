@@ -1,25 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import NameScreen from "./components/NameScreen";
+import GameScreen from "./components/GameScreen";
+import HighScores from "./components/HighScores";
 
-function App() {
+const App = () => {
+  const [screen, setScreen] = useState("name");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {screen === "name" && <NameScreen onStart={() => setScreen("game")} />}
+      {screen === "game" && <GameScreen onFinish={() => setScreen("highscores")} />}
+      {screen === "highscores" && <HighScores onRestart={() => setScreen("name")} />}
+    </>
   );
-}
+};
 
 export default App;
