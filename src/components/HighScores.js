@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { calculateScore } from "../utils/scoring";
+import { calculateSmarterScore } from '../utils/scoring';  // Ispravan import funkcije
 
 const HighScores = ({ onRestart }) => {
   const [scores, setScores] = useState([]);
@@ -11,7 +11,7 @@ const HighScores = ({ onRestart }) => {
         const sortedScores = response.data
           .map((score) => ({
             ...score,
-            finalScore: calculateScore(score.errors, score.uniqueCharacters, score.length, score.duration),
+            finalScore: calculateSmarterScore(score.length, score.uniqueCharacters, score.errors, score.duration), // Koristi calculateSmarterScore
           }))
           .sort((a, b) => b.finalScore - a.finalScore);
 
