@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { revealLetter, incrementErrors, resetGame } from "../redux/slices/gameSlice";
 import { calculateSmarterScore } from "../utils/scoring"; 
-import useQuote from "../hooks/useQuote";  // Import your useQuote hook
+import useQuote from "../hooks/useQuote";  // Import useQuote hook
 
 const GameScreen = ({ username, onFinish }) => {
   const { quote, maskedQuote, errors, maxErrors } = useSelector((state) => state.game);
@@ -26,13 +26,10 @@ const GameScreen = ({ username, onFinish }) => {
 
     setGuessedLetters(new Set(guessedLetters.add(letter.toLowerCase())));
 
-    // Provjeri je li citat ispravan
-    if (quote.toLowerCase().includes(letter.toLowerCase())) {
+    // Check if the quote is correct
+    if (quoteData.toLowerCase().includes(letter.toLowerCase())) {
       dispatch(revealLetter(letter));
       setFeedback("Correct!");
-
-      // Ispis citata u konzolu kada igrač pogodi ispravno slovo
-      console.log("Citat (korisnik pogodio slovo):", quote);
     } else {
       dispatch(incrementErrors());
       setFeedback("Incorrect!");
@@ -53,7 +50,7 @@ const GameScreen = ({ username, onFinish }) => {
 
   useEffect(() => {
     if (status === "success") {
-      // Ispis citata kad je uspješno dohvaćen
+      // Display the quote when successfully fetched
       console.log("Dohvaćeni citat:", quoteData);
     }
   }, [quoteData, status]);
@@ -65,7 +62,7 @@ const GameScreen = ({ username, onFinish }) => {
       {status === "success" && (
         <>
           <p>{maskedQuote}</p>
-          <p>Errors: {errors}/{maxErrors}</p>
+          <p>Failed try: {errors}/{maxErrors}</p>
           <input type="text" maxLength={1} onChange={(e) => handleGuess(e.target.value)} />
           <p className={feedback === "Correct!" ? "correct" : feedback === "Incorrect!" ? "incorrect" : "already-guessed"}>{feedback}</p>
           <button onClick={() => dispatch(resetGame())}>Restart</button>

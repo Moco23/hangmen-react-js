@@ -10,13 +10,13 @@ const useQuote = () => {
     const fetchQuote = async () => {
       setStatus("pending");
       try {
-        // Promjena URL-a za testiranje
+        // Change URL for testing
         const response = await axios.get("http://api.quotable.io/random"); // Koristi HTTP umjesto HTTPS
         setQuoteData(response.data.content);
         setStatus("success");
         setError(null);
 
-        // Ispis citata u konzolu za provjeru
+        // Log the quote to the console for verification
         console.log("Dohvaćeni citat:", response.data.content);
       } catch (err) {
         setStatus("error");
