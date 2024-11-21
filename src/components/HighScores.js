@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { calculateScore } from "../utils/scoring";
 
-
 const HighScores = ({ onRestart }) => {
   const [scores, setScores] = useState([]);
 

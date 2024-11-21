@@ -12,7 +12,7 @@ const NameScreen = ({ onStart }) => {
       return;
     }
     dispatch(setUsername(name.trim()));
-    onStart();
+    onStart(); // Move to the next screen
   };
 
   return (

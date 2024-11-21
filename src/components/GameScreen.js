@@ -28,6 +28,7 @@ const GameScreen = ({ onFinish }) => {
         maxLength={1}
         onChange={(e) => handleGuess(e.target.value)}
       />
+      <button onClick={() => dispatch(resetGame())}>Restart</button>
     </div>
   );
 };
