@@ -12,9 +12,15 @@ const NameScreen = ({ onStart }) => {
       setErrorMessage("Please enter your name.");
       return;
     }
-    dispatch(setUsername(name.trim()));
-    setErrorMessage(""); // Reset error message
-    onStart(); // Move to the next screen
+    dispatch(setUsername(name.trim()));  // This will store the username in Redux
+    setErrorMessage("");  // Reset error message
+    onStart(name);  // Call onStart to switch screen
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleStart();  // Trigger game start when Enter is pressed
+    }
   };
 
   return (
@@ -25,6 +31,7 @@ const NameScreen = ({ onStart }) => {
         placeholder="Enter your name"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        onKeyPress={handleKeyPress} // Listen for Enter key press
       />
       <button onClick={handleStart}>Start Game</button>
       {errorMessage && <p className="error">{errorMessage}</p>}

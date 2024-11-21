@@ -21,3 +21,15 @@ button {
   color: red;
   font-size: 14px;
 }
+
+.correct {
+  color: green;
+}
+
+.incorrect {
+  color: red;
+}
+
+.already-guessed {
+  color: orange;
+}
