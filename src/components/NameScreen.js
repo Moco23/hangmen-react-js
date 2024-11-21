@@ -4,14 +4,16 @@ import { setUsername } from "../redux/slices/gameSlice";
 
 const NameScreen = ({ onStart }) => {
   const [name, setName] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useDispatch();
 
   const handleStart = () => {
     if (!name.trim()) {
-      alert("Please enter your name.");
+      setErrorMessage("Please enter your name.");
       return;
     }
     dispatch(setUsername(name.trim()));
+    setErrorMessage(""); // Reset error message
     onStart(); // Move to the next screen
   };
 
@@ -25,6 +27,7 @@ const NameScreen = ({ onStart }) => {
         onChange={(e) => setName(e.target.value)}
       />
       <button onClick={handleStart}>Start Game</button>
+      {errorMessage && <p className="error">{errorMessage}</p>}
     </div>
   );
 };

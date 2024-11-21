@@ -11,7 +11,7 @@ const useQuote = () => {
       setStatus("pending");
       try {
         const response = await axios.get("https://api.quotable.io/random");
-        setQuoteData(response.data.content); // Fetch quote content correctly
+        setQuoteData(response.data.content); // Correctly fetch quote content
         setStatus("success");
         setError(null);
       } catch (err) {
