@@ -10,11 +10,18 @@ input {
   margin: 10px;
   padding: 8px;
   font-size: 16px;
+  width: 100%;
+  max-width: 300px;
+  box-sizing: border-box;
 }
 
 button {
   padding: 10px 20px;
   margin-top: 10px;
+  font-size: 16px;
+  width: 100%;
+  max-width: 300px;
+  box-sizing: border-box;
 }
 
 .error {
@@ -46,6 +53,9 @@ button {
   padding: 10px;
   font-size: 16px;
   cursor: pointer;
+  flex: 1 0 21%; /* Adjust button size for responsiveness */
+  max-width: 60px;
+  box-sizing: border-box;
 }
 
 .keyboard button.correct {
@@ -82,7 +92,49 @@ button {
   margin-top: 0;
 }
 
-.error {
-  color: red;
-  font-size: 14px;
+.high-scores {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.high-scores ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.high-scores li {
+  margin: 5px 0;
+  font-size: 18px;
+}
+
+.high-scores li.highlight {
+  color: green;
+  font-weight: bold;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+  .game-description, .high-scores {
+    padding: 10px;
+  }
+
+  .keyboard button {
+    flex: 1 0 30%; /* Adjust button size for smaller screens */
+    max-width: 50px;
+  }
+
+  input, button {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .keyboard button {
+    flex: 1 0 45%; /* Adjust button size for very small screens */
+    max-width: 40px;
+  }
+
+  input, button {
+    max-width: 100%;
+  }
 }
