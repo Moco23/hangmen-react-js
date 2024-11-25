@@ -10,8 +10,8 @@ const App = () => {
   // Function to start the game
   const onStart = (name) => {
     if (name.trim()) {
-      setUsername(name);  // Set the username when it's valid
-      setScreen("game");  // Switch to the game screen
+      setUsername(name);
+      setScreen("game");
     }
   };
 

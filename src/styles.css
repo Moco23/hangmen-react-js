@@ -33,3 +33,56 @@ button {
 .already-guessed {
   color: orange;
 }
+
+.keyboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.keyboard button {
+  margin: 5px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.keyboard button.correct {
+  background-color: green;
+  color: white;
+}
+
+.keyboard button.incorrect {
+  background-color: red;
+  color: white;
+}
+
+.keyboard button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.name-screen {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.game-description {
+  max-width: 920px;
+  margin-inline: auto;
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.game-description h2 {
+  margin-top: 0;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+}

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { revealLetter, incrementErrors, resetGame } from "../redux/slices/gameSlice";
+import { revealLetter, incrementErrors, resetGame, setQuote } from "../redux/slices/gameSlice";
 import { calculateSmarterScore } from "../utils/scoring"; 
 import useQuote from "../hooks/useQuote";  // Import useQuote hook
+import Keyboard from "./Keyboard";  // Correct import path
 
 const GameScreen = ({ username, onFinish }) => {
-  const { quote, maskedQuote, errors, maxErrors } = useSelector((state) => state.game);
+  const { quote, maskedQuote, errors, maxErrors, remainingLetters } = useSelector((state) => state.game);
   const dispatch = useDispatch();
   const [feedback, setFeedback] = useState("");
-  const [guessedLetters, setGuessedLetters] = useState(new Set());
+  const [guessedLetters, setGuessedLetters] = useState(new Map());
   const [timeTaken, setTimeTaken] = useState(0);
 
   const { quoteData, status, error } = useQuote();  // Destructure status and quoteData
@@ -24,12 +25,14 @@ const GameScreen = ({ username, onFinish }) => {
       return;
     }
 
-    setGuessedLetters(new Set(guessedLetters.add(letter.toLowerCase())));
+    const newGuessedLetters = new Map(guessedLetters);
+    newGuessedLetters.set(letter.toLowerCase(), "incorrect");
 
     // Check if the quote is correct
-    if (quoteData.toLowerCase().includes(letter.toLowerCase())) {
-      dispatch(revealLetter(letter));
+    if (quote.toLowerCase().includes(letter.toLowerCase())) {
+      dispatch(revealLetter({ letter }));
       setFeedback("Correct!");
+      newGuessedLetters.set(letter.toLowerCase(), "correct");
     } else {
       dispatch(incrementErrors());
       setFeedback("Incorrect!");
@@ -41,6 +44,8 @@ const GameScreen = ({ username, onFinish }) => {
         dispatch(resetGame());
       }
     }
+
+    setGuessedLetters(newGuessedLetters);
   };
 
   useEffect(() => {
@@ -50,10 +55,17 @@ const GameScreen = ({ username, onFinish }) => {
 
   useEffect(() => {
     if (status === "success") {
-      // Display the quote when successfully fetched
+      // Set the quote in the Redux store when successfully fetched
+      dispatch(setQuote(quoteData));
       console.log("Dohvaćeni citat:", quoteData);
     }
-  }, [quoteData, status]);
+  }, [quoteData, status, dispatch]);
+
+  const handleReset = () => {
+    dispatch(resetGame());
+    // Fetch a new quote
+    window.location.reload();
+  };
 
   return (
     <div className="game-screen">
@@ -63,16 +75,18 @@ const GameScreen = ({ username, onFinish }) => {
         <>
           <p>{maskedQuote}</p>
           <p>Failed try: {errors}/{maxErrors}</p>
+          <p>Letters to guess: {remainingLetters}</p> {/* Display the number of letters to guess */}
           <input type="text" maxLength={1} onChange={(e) => handleGuess(e.target.value)} />
           <p className={feedback === "Correct!" ? "correct" : feedback === "Incorrect!" ? "incorrect" : "already-guessed"}>{feedback}</p>
-          <button onClick={() => dispatch(resetGame())}>Restart</button>
+          <button onClick={handleReset}>Restart</button>
           <div>
             <h4>Guessed letters:</h4>
-            <p>{[...guessedLetters].join(", ")}</p>
+            <p>{[...guessedLetters.keys()].join(", ")}</p>
           </div>
           <div>
             <h4>Player: {username}</h4>
           </div>
+          <Keyboard onKeyPress={handleGuess} guessedLetters={guessedLetters} />
         </>
       )}
     </div>

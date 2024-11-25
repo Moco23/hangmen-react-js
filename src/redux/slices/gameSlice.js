@@ -5,7 +5,8 @@ const initialState = {
   maskedQuote: '',
   errors: 0,
   maxErrors: 6,
-  username: '', // Add username to the initial state
+  username: '',
+  remainingLetters: 0, // Add remainingLetters to the initial state
   // other state properties
 };
 
@@ -13,17 +14,25 @@ const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
+    setQuote: (state, action) => {
+      state.quote = action.payload;
+      state.maskedQuote = action.payload.replace(/[a-zA-Z]/g, '_');
+      state.remainingLetters = action.payload.replace(/\s/g, '').length; // Initialize remainingLetters
+    },
     revealLetter: (state, action) => {
       const { letter } = action.payload;
       let newMaskedQuote = '';
+      let lettersRevealed = 0;
       for (let i = 0; i < state.quote.length; i++) {
-        if (state.quote[i] === letter) {
-          newMaskedQuote += letter;
+        if (state.quote[i].toLowerCase() === letter.toLowerCase()) {
+          newMaskedQuote += state.quote[i];
+          lettersRevealed++;
         } else {
           newMaskedQuote += state.maskedQuote[i];
         }
       }
       state.maskedQuote = newMaskedQuote;
+      state.remainingLetters -= lettersRevealed; // Update remainingLetters
     },
     incrementErrors: (state) => {
       state.errors += 1;
@@ -33,6 +42,7 @@ const gameSlice = createSlice({
       state.maskedQuote = '';
       state.quote = '';
       state.username = '';
+      state.remainingLetters = 0; // Reset remainingLetters
       // Reset other state properties as needed
     },
     setUsername: (state, action) => {
@@ -41,5 +51,5 @@ const gameSlice = createSlice({
   },
 });
 
-export const { revealLetter, incrementErrors, resetGame, setUsername } = gameSlice.actions;
+export const { setQuote, revealLetter, incrementErrors, resetGame, setUsername } = gameSlice.actions;
 export default gameSlice.reducer;

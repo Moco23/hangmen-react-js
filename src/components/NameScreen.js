@@ -8,33 +8,44 @@ const NameScreen = ({ onStart }) => {
   const dispatch = useDispatch();
 
   const handleStart = () => {
-    if (!name.trim()) {
+    if (name.trim()) {
+      dispatch(setUsername(name));
+      onStart(name);
+    } else {
       setErrorMessage("Please enter your name.");
-      return;
     }
-    dispatch(setUsername(name.trim()));  // This will store the username in Redux
-    setErrorMessage("");  // Reset error message
-    onStart(name);  // Call onStart to switch screen
   };
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      handleStart();  // Trigger game start when Enter is pressed
+      handleStart();
     }
   };
 
   return (
     <div className="name-screen">
-      <h1>Welcome to Hangman</h1>
+      <h1>Welcome to Hangman Game</h1>
+      <p>Enter your name to start the game:</p>
       <input
         type="text"
-        placeholder="Enter your name"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        onKeyPress={handleKeyPress} // Listen for Enter key press
+        onKeyPress={handleKeyPress}
       />
       <button onClick={handleStart}>Start Game</button>
       {errorMessage && <p className="error">{errorMessage}</p>}
+      <div className="game-description">
+        <h2>How to Play</h2>
+        <p>
+          Welcome to the Hangman Game! The objective of the game is to guess the
+          hidden quote by guessing one letter at a time. You have a limited
+          number of incorrect guesses, so choose your letters wisely. If you
+          guess a letter correctly, it will be revealed in the quote. If you
+          guess incorrectly, you will lose a chance. The game ends when you
+          either guess the entire quote correctly or run out of chances. Good
+          luck!
+        </p>
+      </div>
     </div>
   );
 };
