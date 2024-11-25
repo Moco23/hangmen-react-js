@@ -1,10 +1,30 @@
-# Getting Started with Create React App
+# Hangman Game
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a Hangman game built with React and Redux. The objective of the game is to guess the hidden quote by guessing one letter at a time. You have a limited number of incorrect guesses, so choose your letters wisely.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Enter your name to start the game.
+- Guess letters using the keyboard or the on-screen digital keyboard.
+- Track the number of incorrect guesses.
+- Display the masked quote with underscores for unguessed letters.
+- Highlight guessed letters in green (correct) or red (incorrect).
+- Display the number of letters left to guess.
+- Rank the player's score among other high scores.
+- Highlight the current player's score in green.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js and npm installed on your machine.
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone git@github.com:Moco23/hangmen-react-js.git
+   cd hangman-react
 
 ### `npm start`
 
