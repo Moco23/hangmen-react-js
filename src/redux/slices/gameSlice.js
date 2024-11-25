@@ -14,18 +14,29 @@ const gameSlice = createSlice({
   initialState,
   reducers: {
     revealLetter: (state, action) => {
-      // logic to reveal letter
+      const { letter } = action.payload;
+      let newMaskedQuote = '';
+      for (let i = 0; i < state.quote.length; i++) {
+        if (state.quote[i] === letter) {
+          newMaskedQuote += letter;
+        } else {
+          newMaskedQuote += state.maskedQuote[i];
+        }
+      }
+      state.maskedQuote = newMaskedQuote;
     },
     incrementErrors: (state) => {
       state.errors += 1;
     },
     resetGame: (state) => {
       state.errors = 0;
-      state.maskedQuote = ''; // Reset other state properties as needed
+      state.maskedQuote = '';
+      state.quote = '';
+      state.username = '';
       // Reset other state properties as needed
     },
     setUsername: (state, action) => {
-      state.username = action.payload; // Add setUsername reducer
+      state.username = action.payload;
     },
   },
 });
